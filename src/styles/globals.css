@@ -4,3 +4,8 @@
   font-family: Arial, Helvetica, sans-serif;
   --color-ivory: #f8f4ef;
 }
+
+html,
+body {
+  background: #0b0b0c;
+}

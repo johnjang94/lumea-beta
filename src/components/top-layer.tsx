@@ -10,7 +10,7 @@ export default function Top() {
       <div>
         <Link href="/">
           <Image
-            src="/new-lumea-bright.png"
+            src="/logo-bright.png"
             alt="Lumea Education logo"
             width={100}
             height={100}
