@@ -12,7 +12,7 @@ type AppPropsWithChrome = AppProps & {
 function BootSplash() {
   return (
     <div
-      className="fixed inset-0 z-9999 bg-cover bg-center"
+      className="fixed inset-0 z-[9999] bg-cover bg-center"
       style={{ backgroundImage: "url(/mobile-logo.png)" }}
     />
   );
@@ -20,18 +20,18 @@ function BootSplash() {
 
 export default function App({ Component, pageProps }: AppPropsWithChrome) {
   const hideChrome = Component.hideChrome === true;
-  const [showSplash, setShowSplash] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return !sessionStorage.getItem("booted");
-  });
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("booted")) return;
+    const alreadyBooted = sessionStorage.getItem("booted") === "1";
+    if (!alreadyBooted) sessionStorage.setItem("booted", "1");
 
-    sessionStorage.setItem("booted", "1");
+    const t = window.setTimeout(
+      () => setShowSplash(false),
+      alreadyBooted ? 0 : 2000
+    );
 
-    const t = window.setTimeout(() => setShowSplash(false), 2000);
     return () => window.clearTimeout(t);
   }, []);
 
