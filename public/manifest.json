@@ -1,7 +1,7 @@
 {
-  "name": "lumea-beta",
-  "short_name": "lumea",
-  "description": "Job searching app based on your education",
+  "name": "Lumea",
+  "short_name": "Lumea",
+  "description": "Learning, in Progress",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
