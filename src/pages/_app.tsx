@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import type { NextPageWithChrome } from "@/types/next-page";
 import Top from "@/components/top-layer";
 import Bottom from "@/components/bottom-layer";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type AppPropsWithChrome = AppProps & {
@@ -12,21 +11,19 @@ type AppPropsWithChrome = AppProps & {
 
 function BootSplash() {
   return (
-    <div className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#0B0B0C] text-white">
-      <Image
-        src="/mobile-logo.png"
-        alt="Lumea"
-        width={80}
-        height={80}
-        priority
-      />
-    </div>
+    <div
+      className="fixed inset-0 z-9999 bg-cover bg-center"
+      style={{ backgroundImage: "url(/mobile-logo.png)" }}
+    />
   );
 }
 
 export default function App({ Component, pageProps }: AppPropsWithChrome) {
   const hideChrome = Component.hideChrome === true;
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !sessionStorage.getItem("booted");
+  });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -34,17 +31,8 @@ export default function App({ Component, pageProps }: AppPropsWithChrome) {
 
     sessionStorage.setItem("booted", "1");
 
-    let hideTimer: number | undefined;
-
-    const showTimer = window.setTimeout(() => {
-      setShowSplash(true);
-      hideTimer = window.setTimeout(() => setShowSplash(false), 2000);
-    }, 0);
-
-    return () => {
-      window.clearTimeout(showTimer);
-      if (hideTimer) window.clearTimeout(hideTimer);
-    };
+    const t = window.setTimeout(() => setShowSplash(false), 2000);
+    return () => window.clearTimeout(t);
   }, []);
 
   if (hideChrome) {
