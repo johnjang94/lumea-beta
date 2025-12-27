@@ -38,7 +38,7 @@ export default function BottomBar() {
     href === "/" ? router.pathname === "/" : router.pathname.startsWith(href);
 
   return (
-    <nav className="border-t sticky bottom-0 bg-white z-50">
+    <nav className="bg-[#f8f4ef]">
       <div className="mx-auto max-w-6xl px-2 py-2 grid grid-cols-5">
         {tabs.map((t) => (
           <Link

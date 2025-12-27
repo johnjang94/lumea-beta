@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import type { NextPageWithChrome } from "@/types/next-page";
 import Top from "@/components/top-layer";
 import Bottom from "@/components/bottom-layer";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type AppPropsWithChrome = AppProps & {
@@ -11,10 +12,15 @@ type AppPropsWithChrome = AppProps & {
 
 function BootSplash() {
   return (
-    <div
-      className="fixed inset-0 z-[9999] bg-cover bg-center"
-      style={{ backgroundImage: "url(/mobile-logo.png)" }}
-    />
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0B0B0C]">
+      <Image
+        src="/mobile-logo.png"
+        alt="Lumea"
+        width={600}
+        height={600}
+        priority
+      />
+    </div>
   );
 }
 
@@ -23,23 +29,17 @@ export default function App({ Component, pageProps }: AppPropsWithChrome) {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const alreadyBooted = sessionStorage.getItem("booted") === "1";
-    if (!alreadyBooted) sessionStorage.setItem("booted", "1");
-
-    const t = window.setTimeout(
-      () => setShowSplash(false),
-      alreadyBooted ? 0 : 2000
-    );
-
+    const t = window.setTimeout(() => setShowSplash(false), 2000);
     return () => window.clearTimeout(t);
   }, []);
+
+  const Page = <Component {...pageProps} />;
 
   if (hideChrome) {
     return (
       <>
         {showSplash && <BootSplash />}
-        <Component {...pageProps} />
+        {Page}
       </>
     );
   }
@@ -50,15 +50,17 @@ export default function App({ Component, pageProps }: AppPropsWithChrome) {
 
       <div className="min-h-screen w-full bg-[#2B1F1A] flex justify-center">
         <div
-          className="w-full min-w-90 max-w-200 flex flex-col p-2.5"
+          className="w-full min-w-90 max-w-200 flex flex-col"
           style={{ backgroundColor: "var(--color-ivory)" }}
         >
-          <Top />
-          <main className="flex-1">
-            <Component {...pageProps} />
-          </main>
-          <Bottom />
+          <div className="p-2.5">
+            <Top />
+            <main className="pb-19">{Page}</main>
+          </div>
         </div>
+      </div>
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full min-w-90 max-w-200 z-50">
+        <Bottom />
       </div>
     </>
   );

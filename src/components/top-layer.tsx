@@ -22,7 +22,7 @@ export default function Top() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search..."
-          className="w-full border rounded px-3 py-2"
+          className="w-full rounded-2xl px-3 py-2 bg-white"
         />
         <button className="cursor-pointer p-3 text-black">
           <HiBellAlert size={24} aria-label="Notifications" />
