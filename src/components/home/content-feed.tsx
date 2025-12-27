@@ -28,7 +28,7 @@ function CategoryPills({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="sticky top-14 z-40 bg-(--color-ivory)">
+    <div className="top-14 z-40 bg-(--color-ivory)">
       <div className="flex gap-2 overflow-x-auto py-2 no-scrollbar">
         {CATEGORIES.map((c) => {
           const isOn = active === c;
@@ -37,7 +37,7 @@ function CategoryPills({
               key={c}
               onClick={() => onChange(c)}
               className={[
-                "shrink-0 rounded-full px-3 py-1 text-[11px] border",
+                "shrink-0 rounded-full px-3 py-1 text-small border",
                 isOn ? "bg-black text-white border-black" : "bg-white/70",
               ].join(" ")}
             >
